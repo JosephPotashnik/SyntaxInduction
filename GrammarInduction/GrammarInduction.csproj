@@ -10,4 +10,16 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="LinearIndexedGrammar">
+      <HintPath>..\..\Linear-Indexed-Grammar\LinearIndexedGrammar\bin\Release\netcoreapp2.0\LinearIndexedGrammar.dll</HintPath>
+    </Reference>
+    <Reference Include="LinearIndexedGrammarLearner">
+      <HintPath>..\..\Linear-Indexed-Grammar\LinearIndexedGrammar\bin\Release\netcoreapp2.0\LinearIndexedGrammarLearner.dll</HintPath>
+    </Reference>
+    <Reference Include="LinearIndexedGrammarParser">
+      <HintPath>..\..\Linear-Indexed-Grammar\LinearIndexedGrammar\bin\Release\netcoreapp2.0\LinearIndexedGrammarParser.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
