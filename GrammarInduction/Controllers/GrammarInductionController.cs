@@ -72,6 +72,7 @@ namespace GrammarInduction.Controllers
                 //infer its base form and part of speech from known conjugations
                 //(i.e ing/ed/s , er/est, etc)
                 string prevWord = null;
+                List<string> s = new List<string>();
                 foreach (var wordOrig in sentenceWords)
                 {
                     //trim leading or trailing single apostrophe
@@ -87,7 +88,18 @@ namespace GrammarInduction.Controllers
                         break;
                     }
 
-                    if (encounteredWords.Contains(word)) continue;
+                    if (encounteredWords.Contains(word))
+                    {
+                        if (prevWord != null && prevWord == "to" && uniVocabulary.WordWithPossiblePOS[word].Contains("V"))
+                        {
+                            unableToResolveWord = true;
+                            break;
+                        }
+
+                        prevWord = word;
+                        s.Add(word);
+                        continue;
+                    }
                     encounteredWords.Add(word);
                     unableToResolveWord = true;
 
@@ -202,6 +214,10 @@ namespace GrammarInduction.Controllers
                     }
                     else if (uniVocabulary.WordWithPossiblePOS[word].Contains("V"))
                     {
+                        if (word == "cry")
+                        {
+                            int x = 1;
+                        }
                         if (prevWord != null && prevWord == "to")
                         {
                             unableToResolveWord = true;
@@ -211,16 +227,23 @@ namespace GrammarInduction.Controllers
 
                     unableToResolveWord = false;
                     prevWord = word;
+                    s.Add(word);
                 }
 
                 foreach (var pos in newWords.Keys)
                     uniVocabulary.AddWordsToPOSCategory(pos, newWords[pos].ToArray());
 
-                //third stage of preprocessing =
-                //find compound part of speech (complex P)
                 if (unableToResolveWord == false)
-                    sentencesToLearn.Add(sentenceWords);
+                    sentencesToLearn.Add(s.ToArray());
+                
+            }
 
+            using (System.IO.StreamWriter file =
+                new System.IO.StreamWriter(@"CorwinToLearn.txt"))
+            {
+                foreach (var sen in sentencesToLearn)
+ 
+                    file.WriteLine(string.Join(" ", sen));
             }
         }
     }
